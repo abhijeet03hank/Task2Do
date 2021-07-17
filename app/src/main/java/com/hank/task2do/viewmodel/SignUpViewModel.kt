@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.hank.task2do.util.Constants
+import com.hank.task2do.util.LoadingDialog
 import com.hank.task2do.util.ViewModelCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +31,8 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
     init {
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
-        databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
+        databaseReference = database?.getReference(Constants.USER_PROFILE)
+//        databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
 
     }
 
@@ -51,7 +53,7 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
 
                         Toast.makeText(
                             getApplication(),
-                            "You have successfully signed up!",
+                            "You have successfully created account!",
                             Toast.LENGTH_SHORT
                         ).show()
                         updateUI(currentUser);
@@ -66,7 +68,7 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
 
     fun updateUI( user: FirebaseUser?){
         user?.let {
-            myViewCallBack?.getResult(user);
+            myViewCallBack?.getResult(user as Object);
         }
     }
 }

@@ -14,6 +14,14 @@ class DateUtil {
             return dateFormatter.format(calendardate.time)
         }
 
+        fun calendarDateToString(calendardate: Date, format: String): String {
+            //simple date formatter
+            val dateFormatter = SimpleDateFormat(format, Locale.getDefault())
+
+            //return the formatted date string
+            return dateFormatter.format(calendardate)
+        }
+
          fun StringToDate(dateStr: String, format: String): Date {
             val sdformat = SimpleDateFormat(format)
             val date = sdformat.parse(dateStr)

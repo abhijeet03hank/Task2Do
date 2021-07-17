@@ -59,7 +59,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     fun updateUI( user: FirebaseUser?){
         user?.let {
-            myViewCallBack?.getResult(user);
+            myViewCallBack?.getResult(user as Object);
         }
     }
 }

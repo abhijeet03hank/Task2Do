@@ -48,7 +48,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/addtask_title"
+                    android:id="@+id/add_task_title"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/addtask_title_ed"
+                        android:id="@+id/add_task_title_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="sans-serif"
@@ -76,38 +76,9 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/signup_username"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/enter_username"
-                    android:textColorHint="@color/black"
-                    app:boxStrokeColor="@color/black"
-                    android:visibility="gone"
-                    app:boxStrokeWidthFocused="2dp"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="@color/black"
-                    app:hintTextColor="@color/black"
-                    app:startIconDrawable="@drawable/field_username_icon"
-                    app:startIconTint="@color/black">
-
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/signup_username_ed"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="sans-serif"
-                        android:inputType="text"
-                        android:textColor="@color/black"
-                        android:textCursorDrawable="@null" />
-
-
-                </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/signup_email"
+                    android:id="@+id/add_task_comment"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +94,7 @@
 
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/signup_email_ed"
+                        android:id="@+id/add_task_comment_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="sans-serif"

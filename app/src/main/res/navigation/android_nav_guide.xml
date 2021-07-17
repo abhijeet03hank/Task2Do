@@ -36,7 +36,9 @@
         tools:layout="@layout/fragment_task_list" >
         <argument
             android:name="auth_user"
-            app:argType="com.google.firebase.auth.FirebaseUser" />
+            app:argType="com.google.firebase.auth.FirebaseUser"
+            app:nullable="true"
+            android:defaultValue="@null"/>
         <action
             android:id="@+id/action_taskListFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -48,5 +50,9 @@
         android:id="@+id/addTaskFragment"
         android:name="com.hank.task2do.ui.AddTaskFragment"
         android:label="fragment_add_task"
-        tools:layout="@layout/fragment_add_task" />
+        tools:layout="@layout/fragment_add_task" >
+        <action
+            android:id="@+id/action_addTaskFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
+    </fragment>
 </navigation>

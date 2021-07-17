@@ -17,10 +17,11 @@ import com.hank.task2do.R
 import com.hank.task2do.util.Constants
 import com.hank.task2do.util.ViewModelCallback
 import com.hank.task2do.databinding.FragmentSignUpBinding
+import com.hank.task2do.util.LoadingDialog
 import com.hank.task2do.viewmodel.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.fragment_sign_up.view.*
-
+import java.util.*
 
 
 class SignUpFragment : Fragment(),ViewModelCallback {
@@ -29,6 +30,7 @@ class SignUpFragment : Fragment(),ViewModelCallback {
     private lateinit var dataBinding: FragmentSignUpBinding
     var databaseReference: DatabaseReference? = null
     val database: FirebaseDatabase? = null
+    private lateinit var loadingDialog : LoadingDialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +45,7 @@ class SignUpFragment : Fragment(),ViewModelCallback {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_sign_up, container, false)
         dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
+        loadingDialog = LoadingDialog(requireActivity())
 
         view.signup_login_button.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_loginFragment)
@@ -50,8 +53,9 @@ class SignUpFragment : Fragment(),ViewModelCallback {
 
         mSignUpViewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
         mSignUpViewModel.myViewCallBack = object: ViewModelCallback {
-            override fun getResult(user: FirebaseUser) {
+            override fun getResult(user: Object) {
                 view?.let {
+                    loadingDialog.dismissDialog()
                     Navigation.findNavController(requireView()).navigate(R.id.action_signUpFragment_to_loginFragment)
                 }
 
@@ -108,8 +112,11 @@ class SignUpFragment : Fragment(),ViewModelCallback {
     }
 
 
-    override fun getResult(user: FirebaseUser) {
+
+
+    override fun getResult(obj: Object) {
         view?.let {
+            loadingDialog.dismissDialog()
             Navigation.findNavController(requireView()).navigate(R.id.action_signUpFragment_to_loginFragment)
         }
     }

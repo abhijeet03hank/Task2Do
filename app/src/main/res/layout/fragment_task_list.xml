@@ -11,36 +11,46 @@
     tools:context=".ui.TaskListFragment">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/purple_700"
         android:orientation="horizontal"
+        android:padding="@dimen/padding_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="@dimen/padding_large"
-        android:background="@color/purple_700">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/user_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hi!"
             android:layout_alignParentLeft="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textsize_normal"
+            android:layout_marginLeft="@dimen/margin_normal"
             android:fontFamily="sans-serif"
-            android:layout_marginLeft="@dimen/margin_normal"/>
+            android:text="Hi!"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textsize_normal" />
 
         <ImageView
             android:id="@+id/sign_out_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            app:tint="@color/white"
             android:layout_alignParentRight="true"
-            android:src="@drawable/sign_out_icon"/>
+            android:src="@drawable/sign_out_icon"
+            app:tint="@color/white" />
 
 
     </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/task_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_task_button"

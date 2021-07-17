@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Nullable
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +18,7 @@ import com.hank.task2do.databinding.FragmentLoginBinding
 import com.hank.task2do.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
-
+import java.util.*
 
 
 class LoginFragment : Fragment(), ViewModelCallback {
@@ -42,16 +43,27 @@ class LoginFragment : Fragment(), ViewModelCallback {
         loadingDialog = LoadingDialog(requireActivity())
         auth = FirebaseAuth.getInstance()
         mLoginViewmodel.myViewCallBack = object: ViewModelCallback {
-            override fun getResult(user: FirebaseUser) {
+            override fun getResult(user: Object) {
                 view?.let {
                     loadingDialog.dismissDialog()
-                    val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment(user)
+                    val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment()
+                    action.authUser = user as @Nullable FirebaseUser
                     Navigation.findNavController(requireView()).navigate(action)
                 }
             }
         }
 
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(null!=currentUser){
+            val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment()
+            action.authUser = currentUser
+            Navigation.findNavController(requireView()).navigate(action)
+        }
     }
 
     override fun onResume() {
@@ -67,11 +79,6 @@ class LoginFragment : Fragment(), ViewModelCallback {
             }
         }
 
-        val currentUser = auth.currentUser
-        if(null!=currentUser){
-            val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment(currentUser)
-            Navigation.findNavController(requireView()).navigate(action)
-        }
     }
 
     fun validateUser(): Boolean {
@@ -90,10 +97,11 @@ class LoginFragment : Fragment(), ViewModelCallback {
         return isValidUser
     }
 
-    override fun getResult(user: FirebaseUser) {
+    override fun getResult(user: Object) {
         view?.let {
             loadingDialog.dismissDialog()
-            val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment(user)
+            val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment()
+            action.authUser = user as @Nullable FirebaseUser
             Navigation.findNavController(requireView()).navigate(action)
         }
     }
