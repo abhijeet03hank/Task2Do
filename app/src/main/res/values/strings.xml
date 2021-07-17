@@ -1,19 +1,29 @@
 <resources>
     <string name="app_name">Task2Do</string>
+
+    <!--login-->
     <string name="login">Login</string>
     <string name="enter_phone_number">Enter Phone Number</string>
     <string name="enter_password">Enter Password</string>
     <string name="remember_me">Remember me</string>
     <string name="forget_password">Forget password</string>
 
-
+<!--signup-->
     <string name="create_account">Create account</string>
     <string name="enter_full_name">Enter full name</string>
     <string name="next_btn">Next</string>
     <string name="enter_email">Enter Email</string>
     <string name="enter_username">Enter Username</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--add task-->
+    <string name="add_task">Add task</string>
+    <string name="enter_title">Enter title</string>
+    <string name="enter_comments">Enter comments</string>
+    <string name="schedule_timer">Schedule a timer</string>
+    <string name="save_button">Save task</string>
+    <string name="back">back</string>
+
+
 
     create_account
 

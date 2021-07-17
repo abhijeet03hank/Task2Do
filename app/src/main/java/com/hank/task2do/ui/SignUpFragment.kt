@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -15,8 +14,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.hank.task2do.R
-import com.hank.task2do.Util.Constants
-import com.hank.task2do.Util.ViewModelCallback
+import com.hank.task2do.util.Constants
+import com.hank.task2do.util.ViewModelCallback
 import com.hank.task2do.databinding.FragmentSignUpBinding
 import com.hank.task2do.viewmodel.SignUpViewModel
 import kotlinx.android.synthetic.main.fragment_sign_up.*

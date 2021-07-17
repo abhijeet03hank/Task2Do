@@ -11,8 +11,8 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.hank.task2do.R
-import com.hank.task2do.Util.LoadingDialog
-import com.hank.task2do.Util.ViewModelCallback
+import com.hank.task2do.util.LoadingDialog
+import com.hank.task2do.util.ViewModelCallback
 import com.hank.task2do.databinding.FragmentLoginBinding
 import com.hank.task2do.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*

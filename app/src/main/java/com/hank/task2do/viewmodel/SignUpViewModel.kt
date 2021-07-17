@@ -9,8 +9,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.hank.task2do.Util.Constants
-import com.hank.task2do.Util.ViewModelCallback
+import com.hank.task2do.util.Constants
+import com.hank.task2do.util.ViewModelCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

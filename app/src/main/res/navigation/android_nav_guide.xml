@@ -40,5 +40,13 @@
         <action
             android:id="@+id/action_taskListFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_taskListFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addTaskFragment"
+        android:name="com.hank.task2do.ui.AddTaskFragment"
+        android:label="fragment_add_task"
+        tools:layout="@layout/fragment_add_task" />
 </navigation>

@@ -1,9 +1,7 @@
-package com.hank.task2do.Util
+package com.hank.task2do.util
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Dialog
-import androidx.appcompat.app.AppCompatActivity
 import com.hank.task2do.R
 
 class LoadingDialog(val activity: Activity) {

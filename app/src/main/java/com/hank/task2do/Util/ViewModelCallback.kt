@@ -1,6 +1,5 @@
-package com.hank.task2do.Util
+package com.hank.task2do.util
 
-import androidx.annotation.Nullable
 import com.google.firebase.auth.FirebaseUser
 
 interface ViewModelCallback {

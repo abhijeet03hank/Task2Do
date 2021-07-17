@@ -1,7 +1,6 @@
 package com.hank.task2do.ui
 
 import android.os.Bundle
-import android.provider.SyncStateContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +11,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.hank.task2do.R
-import com.hank.task2do.Util.Constants
-import com.hank.task2do.viewmodel.LoginViewModel
+import com.hank.task2do.util.Constants
 import com.hank.task2do.viewmodel.TaskListViewModel
-import kotlinx.android.synthetic.main.fragment_sign_up.*
-import kotlinx.android.synthetic.main.fragment_sign_up.view.*
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import kotlinx.android.synthetic.main.fragment_task_list.view.*
 
@@ -61,9 +57,7 @@ class TaskListFragment : Fragment() {
             }
             override fun onCancelled(error: DatabaseError) {
             }
-
         })
-
     }
 
     override fun onResume() {
@@ -74,6 +68,9 @@ class TaskListFragment : Fragment() {
                     mTaskListViewmodel.signOutUser()
                     Navigation.findNavController(requireView()).navigate(R.id.action_taskListFragment_to_loginFragment)
                 }
+            }
+            it.add_task_button.setOnClickListener{
+                Navigation.findNavController(requireView()).navigate(R.id.action_taskListFragment_to_addTaskFragment)
             }
         }
     }
