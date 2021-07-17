@@ -1,13 +1,18 @@
 package com.hank.task2do.ui
 
 import android.os.Bundle
+import android.provider.SyncStateContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.hank.task2do.R
+import com.hank.task2do.Util.Constants
 import com.hank.task2do.viewmodel.LoginViewModel
 import com.hank.task2do.viewmodel.TaskListViewModel
 import kotlinx.android.synthetic.main.fragment_sign_up.*
@@ -20,6 +25,9 @@ class TaskListFragment : Fragment() {
 
     private lateinit var mTaskListViewmodel: TaskListViewModel
     var currentUser : FirebaseUser? = null
+    lateinit var auth: FirebaseAuth
+    var databaseReference : DatabaseReference? = null
+    var database : FirebaseDatabase? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +42,9 @@ class TaskListFragment : Fragment() {
         arguments?.let {
             currentUser = LoginFragmentArgs.fromBundle(it).authUser
         }
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
         initialise()
         return view
     }
@@ -42,6 +53,19 @@ class TaskListFragment : Fragment() {
 //        currentUser?.let {
 //            user_name_tv.text = currentUser.toString()
 //        }
+
+        val user = auth.currentUser
+        val userRef = databaseReference?.child(user?.uid!!)
+        userRef?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                user_name_tv.text = snapshot.child(Constants.USER_FULL_NAME).value.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+
     }
 
     override fun onResume() {
@@ -50,6 +74,7 @@ class TaskListFragment : Fragment() {
             it.sign_out_button.setOnClickListener {
                 currentUser?.let {
                     mTaskListViewmodel.signOutUser()
+                    Navigation.findNavController(requireView()).navigate(R.id.action_taskListFragment_to_loginFragment)
                 }
             }
         }

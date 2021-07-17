@@ -35,7 +35,7 @@ class SignUpFragment : Fragment(),ViewModelCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = FirebaseAuth.getInstance()
-        databaseReference = database?.reference?.let { it.child("user_profile") }
+        databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
     }
 
     override fun onCreateView(

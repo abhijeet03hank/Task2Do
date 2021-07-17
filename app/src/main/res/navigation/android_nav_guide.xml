@@ -37,5 +37,8 @@
         <argument
             android:name="auth_user"
             app:argType="com.google.firebase.auth.FirebaseUser" />
+        <action
+            android:id="@+id/action_taskListFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

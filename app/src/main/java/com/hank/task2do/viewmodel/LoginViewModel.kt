@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.hank.task2do.Util.Constants
 import com.hank.task2do.Util.ViewModelCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     init {
         auth = FirebaseAuth.getInstance()
-        databaseReference = database?.reference?.let { it.child("user_profile") }
+        databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
 
     }
 

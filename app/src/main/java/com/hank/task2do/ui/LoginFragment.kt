@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
@@ -51,7 +50,6 @@ class LoginFragment : Fragment(), ViewModelCallback {
         return view
     }
 
-
     override fun onResume() {
         super.onResume()
         view?.let {
@@ -87,5 +85,4 @@ class LoginFragment : Fragment(), ViewModelCallback {
             Navigation.findNavController(requireView()).navigate(action)
         }
     }
-
 }

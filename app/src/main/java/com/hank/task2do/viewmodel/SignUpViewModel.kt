@@ -19,7 +19,7 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
 
     lateinit var auth: FirebaseAuth
     var databaseReference : DatabaseReference? = null
-    val database : FirebaseDatabase? = null
+    var database : FirebaseDatabase? = null
     var myViewCallBack: ViewModelCallback? = null
 
 
@@ -29,7 +29,8 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
 
     init {
         auth = FirebaseAuth.getInstance()
-        databaseReference = database?.reference?.let { it.child("user_profile") }
+        database = FirebaseDatabase.getInstance()
+        databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
 
     }
 
@@ -47,6 +48,7 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
                         currentUserDb?.let {
                             it.child(Constants.USER_FULL_NAME)?.setValue(fullname)
                         }
+
                         Toast.makeText(
                             getApplication(),
                             "You have successfully signed up!",
