@@ -11,13 +11,13 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.hank.task2do.R
+import com.hank.task2do.Util.LoadingDialog
 import com.hank.task2do.Util.ViewModelCallback
 import com.hank.task2do.databinding.FragmentLoginBinding
 import com.hank.task2do.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
-import kotlinx.android.synthetic.main.fragment_sign_up.*
-import kotlinx.android.synthetic.main.fragment_sign_up.view.signup_login_button
+
 
 
 class LoginFragment : Fragment(), ViewModelCallback {
@@ -25,6 +25,7 @@ class LoginFragment : Fragment(), ViewModelCallback {
     lateinit var auth: FirebaseAuth
     private lateinit var mLoginViewmodel: LoginViewModel
     private lateinit var dataBinding: FragmentLoginBinding
+    private lateinit var loadingDialog : LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +38,19 @@ class LoginFragment : Fragment(), ViewModelCallback {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 //        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         view.signUpText.setOnClickListener { Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signUpFragment) }
-
         mLoginViewmodel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        loadingDialog = LoadingDialog(requireActivity())
+        auth = FirebaseAuth.getInstance()
         mLoginViewmodel.myViewCallBack = object: ViewModelCallback {
             override fun getResult(user: FirebaseUser) {
                 view?.let {
+                    loadingDialog.dismissDialog()
                     val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment(user)
                     Navigation.findNavController(requireView()).navigate(action)
                 }
             }
         }
+
         return view
     }
 
@@ -55,11 +59,18 @@ class LoginFragment : Fragment(), ViewModelCallback {
         view?.let {
             it.loggin_button.setOnClickListener {
                 if (validateUser()) {
+                    loadingDialog.startLoadingDialog()
                     mLoginViewmodel.loginUser(
                         login_email_ed.text.toString(),
                         login_password_ed.text.toString())
                 }
             }
+        }
+
+        val currentUser = auth.currentUser
+        if(null!=currentUser){
+            val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment(currentUser)
+            Navigation.findNavController(requireView()).navigate(action)
         }
     }
 
@@ -81,6 +92,7 @@ class LoginFragment : Fragment(), ViewModelCallback {
 
     override fun getResult(user: FirebaseUser) {
         view?.let {
+            loadingDialog.dismissDialog()
             val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment(user)
             Navigation.findNavController(requireView()).navigate(action)
         }

@@ -18,11 +18,10 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application): AndroidViewModel(application) {
 
-    lateinit var auth: FirebaseAuth
+    var auth: FirebaseAuth
     var databaseReference : DatabaseReference? = null
     val database : FirebaseDatabase? = null
     var myViewCallBack: ViewModelCallback? = null
-
 
     companion object {
         private val TAG = LoginViewModel::class.qualifiedName
@@ -33,7 +32,6 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
 
     }
-
 
     fun loginUser(email: String, password:String){
         viewModelScope.launch(Dispatchers.IO) {

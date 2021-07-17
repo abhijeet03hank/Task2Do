@@ -29,7 +29,6 @@ class TaskListFragment : Fragment() {
     var databaseReference : DatabaseReference? = null
     var database : FirebaseDatabase? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -60,7 +59,6 @@ class TaskListFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 user_name_tv.text = snapshot.child(Constants.USER_FULL_NAME).value.toString()
             }
-
             override fun onCancelled(error: DatabaseError) {
             }
 
