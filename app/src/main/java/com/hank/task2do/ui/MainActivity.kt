@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.hank.task2do.R
 
@@ -15,8 +16,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navController = Navigation.findNavController(this,R.id.fragmentContainerView)
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        navController = findNavController(R.id.fragmentContainerView)
+//        NavigationUI.setupActionBarWithNavController(this, navController)
 
     }
 
