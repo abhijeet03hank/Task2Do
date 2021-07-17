@@ -9,13 +9,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.hank.task2do.Util.Constants
 import com.hank.task2do.Util.ViewModelCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class SignUpViewModel(application: Application): AndroidViewModel(application) {
+
+class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     lateinit var auth: FirebaseAuth
     var databaseReference : DatabaseReference? = null
@@ -24,7 +24,7 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
 
 
     companion object {
-        private val TAG = SignUpViewModel::class.qualifiedName
+        private val TAG = LoginViewModel::class.qualifiedName
     }
 
     init {
@@ -34,22 +34,18 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-    fun registerUser(email: String, password:String, fullname: String){
+    fun loginUser(email: String, password:String){
         viewModelScope.launch(Dispatchers.IO) {
-            auth.createUserWithEmailAndPassword(
+            auth.signInWithEmailAndPassword(
                 email,
                 password
             )
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         val currentUser = auth.currentUser
-                        val currentUserDb = databaseReference?.child(currentUser?.uid!!)
-                        currentUserDb?.let {
-                            it.child(Constants.USER_FULL_NAME)?.setValue(fullname)
-                        }
                         Toast.makeText(
                             getApplication(),
-                            "You have successfully signed up!",
+                            "Success! Logging in.",
                             Toast.LENGTH_SHORT
                         ).show()
                         updateUI(currentUser);

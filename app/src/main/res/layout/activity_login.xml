@@ -39,7 +39,7 @@ tools:context=".ui.LoginActivity">
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_phone_number"
+            android:id="@+id/login_email_address"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@ tools:context=".ui.LoginActivity">
 
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_phone_number_editText"
+                android:id="@+id/login_email_ed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif"
@@ -73,7 +73,7 @@ tools:context=".ui.LoginActivity">
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/login_phone_number"
+                android:layout_below="@id/login_email_address"
                 android:hint="@string/enter_password"
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/black"
@@ -130,7 +130,7 @@ tools:context=".ui.LoginActivity">
 
 
                     <Button
-                        android:id="@+id/letTheUserLogIn"
+                        android:id="@+id/loggin_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/forget_password_block"
@@ -143,7 +143,7 @@ tools:context=".ui.LoginActivity">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/letTheUserLogIn"
+                        android:layout_below="@id/loggin_button"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="30dp"
                         android:backgroundTint="@color/white"

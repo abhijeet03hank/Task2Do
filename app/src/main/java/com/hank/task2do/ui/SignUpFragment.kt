@@ -50,7 +50,6 @@ class SignUpFragment : Fragment(),ViewModelCallback {
         }
 
         mSignUpViewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
-
         mSignUpViewModel.myViewCallBack = object: ViewModelCallback {
             override fun getResult(user: FirebaseUser) {
                 view?.let {
