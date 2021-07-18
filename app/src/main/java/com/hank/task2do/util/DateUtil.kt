@@ -6,7 +6,7 @@ import java.util.*
 class DateUtil {
 
     companion object {
-         fun dateToString(calendardate: Calendar, format: String): String {
+         fun dateToString(calendardate: Date, format: String): String {
             //simple date formatter
             val dateFormatter = SimpleDateFormat(format, Locale.getDefault())
 
@@ -14,7 +14,7 @@ class DateUtil {
             return dateFormatter.format(calendardate.time)
         }
 
-        fun calendarDateToString(calendardate: Date, format: String): String {
+        fun calendarDateToString(calendardate: Calendar, format: String): String {
             //simple date formatter
             val dateFormatter = SimpleDateFormat(format, Locale.getDefault())
 
@@ -29,6 +29,12 @@ class DateUtil {
             cal.setTime(date)
             return cal.time
         }
+        fun dateToCalendar(date: Date): Calendar {
+            val cal = Calendar.getInstance()
+            cal.time = date
+            return cal
+        }
+
     }
 
 

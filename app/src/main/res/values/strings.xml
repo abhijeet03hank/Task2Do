@@ -23,6 +23,14 @@
     <string name="save_button">Save task</string>
     <string name="back">back</string>
 
+    <!--add task-->
+    <string name="update_task">Update task</string>
+    <string name="add_comments">Add comments</string>
+    <string name="title">Title</string>
+
+    <!--task list-->
+    <string name="lets_add_task">Lets add some task.</string>
+
 
 
     create_account

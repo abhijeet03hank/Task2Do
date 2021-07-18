@@ -96,9 +96,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/add_task_comment_ed"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:fontFamily="sans-serif"
-                        android:inputType="text"
+                        android:inputType="textMultiLine"
                         android:textColor="@color/black"
                         android:textCursorDrawable="@null" />
 
@@ -159,6 +159,7 @@
 
             <TextView
                 android:id="@+id/back_to_task_list_button"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

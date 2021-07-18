@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_small"
-    android:background="@drawable/common_google_signin_btn_icon_dark_normal_background">
+    android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+    android:id="@+id/task_item_view">
 
 
     <CheckBox
@@ -33,16 +34,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
-    <androidx.constraintlayout.utils.widget.ImageFilterView
-        android:id="@+id/task_item_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_extra_small"
-        android:src="@drawable/task_detail_icon"
-        android:tint="@color/purple_700"
-        app:layout_constraintEnd_toStartOf="@+id/task_item_delete"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/task_item_delete"

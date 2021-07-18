@@ -22,7 +22,6 @@ class TaskListViewModel(application: Application): AndroidViewModel(application)
     var auth: FirebaseAuth
     var databaseReference : DatabaseReference? = null
     var database : FirebaseDatabase? = null
-    val taskData : LiveData<MutableList<Task>>? =null
     var myViewCallBack: ViewModelCallback? = null
 
 
@@ -68,6 +67,32 @@ class TaskListViewModel(application: Application): AndroidViewModel(application)
             }
         }
     }
+
+    fun updateNewTask(task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val currentUser = auth.currentUser
+            val currentUserDb = databaseReference?.child(currentUser?.uid!!)
+            currentUserDb?.let {
+                it.child(Constants.TASK_DATA)?.child(task.title!!).setValue(task)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val currentUser = auth.currentUser
+                            Toast.makeText(
+                                getApplication(),
+                                "Task added Successfuly!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            updateUI(currentUser);
+                        } else {
+                            Log.d(TAG, it.exception.toString())
+                            Toast.makeText(getApplication(), "Failed to add task! " +it.exception.toString(), Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+            }
+        }
+    }
+
 
     fun updateUI( user: FirebaseUser?){
         user?.let {

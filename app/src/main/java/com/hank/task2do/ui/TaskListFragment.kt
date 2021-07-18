@@ -1,12 +1,13 @@
 package com.hank.task2do.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,21 +17,18 @@ import com.google.firebase.database.*
 import com.hank.task2do.R
 import com.hank.task2do.adapter.TaskListAdapter
 import com.hank.task2do.databinding.FragmentTaskListBinding
-import com.hank.task2do.model.Status
 import com.hank.task2do.model.Task
 import com.hank.task2do.util.Constants
 import com.hank.task2do.viewmodel.TaskListViewModel
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import kotlinx.android.synthetic.main.fragment_task_list.view.*
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 import java.util.*
 
 
 class TaskListFragment : Fragment() {
 
     private lateinit var mTaskListViewmodel: TaskListViewModel
-    var currentUser : FirebaseUser? = null
+    var authUser : FirebaseUser? = null
     lateinit var auth: FirebaseAuth
     var databaseReference : DatabaseReference? = null
     var database : FirebaseDatabase? = null
@@ -44,7 +42,15 @@ class TaskListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,13 +59,15 @@ class TaskListFragment : Fragment() {
          fragmentFirstBinding = FragmentTaskListBinding.bind(view)
 
 
+
         mTaskListViewmodel = ViewModelProvider(this).get(TaskListViewModel::class.java)
         auth = FirebaseAuth.getInstance()
+        authUser = auth.currentUser
         database = FirebaseDatabase.getInstance()
         databaseReference = database?.reference?.let { it.child(Constants.USER_PROFILE) }
         try {
             arguments?.let {
-                currentUser = LoginFragmentArgs.fromBundle(it).authUser
+                authUser = LoginFragmentArgs.fromBundle(it).authUser
             }
         }catch (exception :IllegalArgumentException){
         }
@@ -111,7 +119,6 @@ class TaskListFragment : Fragment() {
                         }
                         adapter?.let {
                             it.setTaskData(tList)
-                            it.notifyDataSetChanged()
                         }
 
                     }
@@ -133,7 +140,7 @@ class TaskListFragment : Fragment() {
         super.onResume()
         view?.let {
             it.sign_out_button.setOnClickListener {
-                currentUser?.let {
+                authUser?.let {
                     mTaskListViewmodel.signOutUser()
                     Navigation.findNavController(requireView()).navigate(R.id.action_taskListFragment_to_loginFragment)
                 }
@@ -142,12 +149,17 @@ class TaskListFragment : Fragment() {
                 Navigation.findNavController(requireView()).navigate(R.id.action_taskListFragment_to_addTaskFragment)
             }
 
+            this.requireView().isFocusableInTouchMode = true
+            this.requireView().requestFocus()
+            this.requireView().setOnKeyListener { _, keyCode, _ ->
+                keyCode == KeyEvent.KEYCODE_BACK
+            }
+
             initialise()
         }
     }
 
-    private fun getTaskDataFromDb(){
-        databaseReference = database?.getReference()
-    }
+
+
 
 }

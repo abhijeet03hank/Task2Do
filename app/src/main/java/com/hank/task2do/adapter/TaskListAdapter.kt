@@ -3,9 +3,12 @@ package com.hank.task2do.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.ListFragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.hank.task2do.R
 import com.hank.task2do.model.Task
+import com.hank.task2do.ui.TaskListFragmentDirections
 import com.hank.task2do.util.Constants
 import com.hank.task2do.util.DateUtil
 import kotlinx.android.synthetic.main.task_list_item_layout.view.*
@@ -25,10 +28,15 @@ class TaskListAdapter: RecyclerView.Adapter<TaskListAdapter.MyViewHolder>() {
         val currentTask = taskList[position]
         holder.itemView.task_item_title.text = currentTask.title
         currentTask.timer?.let {
-            holder.itemView.task_item_date_time.text = DateUtil.calendarDateToString(
+            holder.itemView.task_item_date_time.text = DateUtil.dateToString(
                 currentTask.timer,
                 Constants.DATE_TIME_FORMAT_DD_MM_YYYY_HH_MM
             )
+        }
+
+        holder.itemView.task_item_view.setOnClickListener {
+            val action = TaskListFragmentDirections.actionTaskListFragmentToUpdateTaskFragment(currentTask)
+            holder.itemView.findNavController().navigate(action)
         }
     }
 
