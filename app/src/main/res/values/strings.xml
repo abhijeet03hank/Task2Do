@@ -32,6 +32,8 @@
     <!--task list-->
     <string name="lets_add_task">Lets add some task.</string>
 
+// <!--task list-->
+    <string name="lets_finish_task">Lets finish tasks.</string>
 
 
     create_account

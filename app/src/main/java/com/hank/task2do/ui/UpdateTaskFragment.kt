@@ -1,12 +1,18 @@
 package com.hank.task2do.ui
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
+import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavArgs
@@ -20,10 +26,7 @@ import com.hank.task2do.databinding.FragmentTaskListBinding
 import com.hank.task2do.databinding.FragmentUpdateTaskBinding
 import com.hank.task2do.model.Status
 import com.hank.task2do.model.Task
-import com.hank.task2do.util.Constants
-import com.hank.task2do.util.DateUtil
-import com.hank.task2do.util.LoadingDialog
-import com.hank.task2do.util.ViewModelCallback
+import com.hank.task2do.util.*
 import com.hank.task2do.viewmodel.TaskListViewModel
 import kotlinx.android.synthetic.main.fragment_update_task.*
 import kotlinx.android.synthetic.main.fragment_update_task.view.*
@@ -41,6 +44,7 @@ class UpdateTaskFragment : Fragment() {
     private val args by navArgs<UpdateTaskFragmentArgs>()
     private var selectedTask : Task? = null
     private var fragmentUpdateTaskBinding: FragmentUpdateTaskBinding? = null
+    private lateinit var alarmManager: AlarmManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +71,14 @@ class UpdateTaskFragment : Fragment() {
         mTaskListViewmodel.myViewCallBack = object: ViewModelCallback {
             override fun getResult(objects: Object) {
                 loadingDialog.dismissDialog()
+                val currentTask = objects as @Nullable Task
+                if(null!=currentTask.timer)
+                    setAlarm(currentTask)
                 Navigation.findNavController(requireView()).navigate(R.id.action_updateTaskFragment_to_taskListFragment)
             }
         }
+
+        createNotificationChannel()
 
         return  view
     }
@@ -78,13 +87,16 @@ class UpdateTaskFragment : Fragment() {
         super.onResume()
         fragmentUpdateTaskBinding?.let {
             it.updateTimerButton.setOnClickListener {
-                    pickDateTime(DateUtil.dateToCalendar(mTimer))
+                hideKeyboard()
+                pickDateTime(DateUtil.dateToCalendar(mTimer))
 
             }
             it.saveTaskButton.setOnClickListener {
+                hideKeyboard()
                 updateNewTask()
             }
             it.backToTaskListButton.setOnClickListener {
+                hideKeyboard()
                 Navigation.findNavController(requireView()).navigate(R.id.action_updateTaskFragment_to_taskListFragment)
             }
 
@@ -97,12 +109,26 @@ class UpdateTaskFragment : Fragment() {
                 }
             }
 
+//            it.taskItemDelete.setOnClickListener {
+//                createNotificationChannel()
+//                setAlarm()
+//            }
+
             if(null!=selectedTask){
                 populateTaskData(selectedTask!!)
             }
 
         }
     }
+
+//    private fun setAlarm() {
+//        alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val intent = Intent(requireActivity(),AlarmReceiver::class.java)
+//        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0,intent,0)
+//        val timeInMillisecond = selectedTask?.timer?.time
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillisecond!!,AlarmManager.INTERVAL_DAY,pendingIntent)
+//        Toast.makeText(requireContext(),"Scheduled a timer for the task", Toast.LENGTH_SHORT).show()
+//    }
 
     private fun populateTaskData(task: Task){
         fragmentUpdateTaskBinding?.let {
@@ -168,6 +194,57 @@ class UpdateTaskFragment : Fragment() {
         mTimer = taskDateTime
         val dateStr = DateUtil.dateToString(taskDateTime, Constants.DATE_TIME_FORMAT_DD_MM_YYYY_HH_MM)
         fragmentUpdateTaskBinding?.updateTimerButton?.setText(dateStr)
+    }
+
+    private fun setAlarm(task: Task) {
+
+        var description = task.comment
+        val strList = task.comment?.lines()
+        if(strList!!.size > 0)
+            description = strList[0]
+        val currentTime = Calendar.getInstance()
+        val delay = task.timer?.time!!.minus( currentTime.time.time)
+        if (delay > 0) {
+            val futureInMillis: Long = SystemClock.elapsedRealtime() + delay
+
+            alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(requireActivity(), AlarmReceiver::class.java)
+            intent.putExtra(Constants.TASK_TITLE, task.title)
+            intent.putExtra(Constants.TASK_COMMENT, description)
+            val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                futureInMillis!!,
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent
+            )
+            Toast.makeText(requireContext(), "Scheduled a timer for the task", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    fun createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val description = "Channel for alarm manager"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(Constants.NOTIFICATION_CHANNEL, Constants.NOTIFICATION_CHANNEL,importance)
+            channel.description = description
+            val notificationManager = context?.getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(channel)
+        }
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 }

@@ -45,6 +45,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_margin="@dimen/margin_extra_small"
+                        android:visibility="invisible"
                         android:src="@drawable/task_delete_icon"
                         android:tint="@color/purple_700"
                         android:layout_alignParentRight="true" />
@@ -78,7 +79,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="sans-serif"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:textColor="@color/black"
                             android:textCursorDrawable="@null" />
 

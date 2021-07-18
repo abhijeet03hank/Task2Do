@@ -116,6 +116,8 @@ class TaskListFragment : Fragment() {
             userRef?.child(Constants.TASK_DATA)?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if(snapshot.exists()){
+                        tList = mutableListOf<Task>()
+
                         for(taskSnapshot in snapshot.children){
                             val task = taskSnapshot.getValue(Task::class.java)
                             task?.let {
