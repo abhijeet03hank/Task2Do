@@ -104,11 +104,11 @@ class AddTaskFragment : Fragment() {
     fun validateTask(): Boolean {
         var isValidTask = false
         view?.let {
-            if (TextUtils.isEmpty(add_task_title_ed.text.toString())) {
+            if (TextUtils.isEmpty(add_task_title_ed.text.toString().trim())) {
                 add_task_title_ed.error = "Enter Title!"
                 return isValidTask
             }
-            if (TextUtils.isEmpty(add_task_comment_ed.text.toString())) {
+            if (TextUtils.isEmpty(add_task_comment_ed.text.toString().trim())) {
                 add_task_comment_ed.error = "Enter Comments!"
                 return isValidTask
             }

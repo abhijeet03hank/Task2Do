@@ -92,7 +92,7 @@ class SignUpFragment : Fragment(),ViewModelCallback {
         var isValidUser = false
         view?.let {
 
-            if (TextUtils.isEmpty(signup_full_name_ed.text.toString())) {
+            if (TextUtils.isEmpty(signup_full_name_ed.text.toString().trim())) {
 //            dataBinding.signupFullname.setError( getString(R.string.enter_full_name))
 //            dataBinding.signupFullNameEd.setError( "Enter full name",null)
                 signup_full_name_ed.error = "Enter full name!"
@@ -103,11 +103,11 @@ class SignUpFragment : Fragment(),ViewModelCallback {
 //                signup_full_name_ed.error = "Enter Username!"
 //                return isValidUser
 //            }
-            if (TextUtils.isEmpty(signup_email_ed.text.toString())) {
+            if (TextUtils.isEmpty(signup_email_ed.text.toString().trim())) {
                 signup_email_ed.error = "Enter Email!"
                 return isValidUser
             }
-            if (TextUtils.isEmpty(signup_password_ed.text.toString())) {
+            if (TextUtils.isEmpty(signup_password_ed.text.toString().trim())) {
                 signup_password_ed.error = "Enter Password!"
                 return isValidUser
             }

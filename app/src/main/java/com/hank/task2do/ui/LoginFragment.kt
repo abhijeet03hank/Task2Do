@@ -88,11 +88,11 @@ class LoginFragment : Fragment(), ViewModelCallback {
     fun validateUser(): Boolean {
         var isValidUser = false
         view?.let {
-            if (TextUtils.isEmpty(login_email_ed.text.toString())) {
+            if (TextUtils.isEmpty(login_email_ed.text.toString().trim())) {
                 login_email_ed.error = "Enter Email!"
                 return isValidUser
             }
-            if (TextUtils.isEmpty(login_password_ed.text.toString())) {
+            if (TextUtils.isEmpty(login_password_ed.text.toString().trim())) {
                 login_password_ed.error = "Enter Password!"
                 return isValidUser
             }
