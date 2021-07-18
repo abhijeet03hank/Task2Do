@@ -1,11 +1,14 @@
 package com.hank.task2do.ui
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -72,6 +75,8 @@ class SignUpFragment : Fragment(),ViewModelCallback {
         view?.let {
             it.signup_next_button.setOnClickListener {
                 if (validateUser()) {
+                    hideKeyboard()
+                    loadingDialog.startLoadingDialog()
                     mSignUpViewModel.registerUser(
                         signup_email_ed.text.toString(),
                         signup_password_ed.text.toString(),
@@ -121,5 +126,17 @@ class SignUpFragment : Fragment(),ViewModelCallback {
         }
     }
 
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 
 }
