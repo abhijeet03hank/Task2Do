@@ -54,7 +54,7 @@ class TaskListViewModel(application: Application): AndroidViewModel(application)
                             val currentUser = auth.currentUser
                             Toast.makeText(
                                 getApplication(),
-                                "Task added Successfuly!",
+                                "Task added Successfully!",
                                 Toast.LENGTH_SHORT
                             ).show()
                             updateUI(currentUser);
@@ -79,7 +79,7 @@ class TaskListViewModel(application: Application): AndroidViewModel(application)
                             val currentUser = auth.currentUser
                             Toast.makeText(
                                 getApplication(),
-                                "Task added Successfuly!",
+                                "Task updated Successfully!",
                                 Toast.LENGTH_SHORT
                             ).show()
                             updateUI(currentUser);

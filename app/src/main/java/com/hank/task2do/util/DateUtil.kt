@@ -29,8 +29,9 @@ class DateUtil {
             cal.setTime(date)
             return cal.time
         }
-        fun dateToCalendar(date: Date): Calendar {
+        fun dateToCalendar(date: Date?): Calendar {
             val cal = Calendar.getInstance()
+            if(null!=date)
             cal.time = date
             return cal
         }

@@ -1,12 +1,15 @@
 package com.hank.task2do.ui
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -58,8 +61,6 @@ class TaskListFragment : Fragment() {
          val view = inflater.inflate(R.layout.fragment_task_list, container, false)
          fragmentFirstBinding = FragmentTaskListBinding.bind(view)
 
-
-
         mTaskListViewmodel = ViewModelProvider(this).get(TaskListViewModel::class.java)
         auth = FirebaseAuth.getInstance()
         authUser = auth.currentUser
@@ -80,15 +81,19 @@ class TaskListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
+        tList = mutableListOf<Task>()
 
+// For liveDate
 //        mTaskListViewmodel.taskData?.observe(viewLifecycleOwner, Observer {
 //                newTaskList -> adapter.setTaskData(newTaskList)
 //        })
 
+//Sample Values
 //        val task = Task("qwe","asdf", Calendar.getInstance().time,Status.TODO)
 //        val task2 = Task("qwew","asdfff", Calendar.getInstance().time,Status.TODO)
-         tList = mutableListOf<Task>()
 //        adapter.setTaskData(tList)
+        checkForEmptyTaskList(tList)
+        hideKeyboard()
         return view
     }
 
@@ -119,21 +124,22 @@ class TaskListFragment : Fragment() {
                         }
                         adapter?.let {
                             it.setTaskData(tList)
+                            checkForEmptyTaskList(tList)
                         }
-
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {
                     Log.d(TAG,error.toString())
                 }
             })
-
-
-
-
         }catch (exception: Exception){
                 Log.d(TAG,exception.toString() )
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
     }
 
     override fun onResume() {
@@ -159,7 +165,33 @@ class TaskListFragment : Fragment() {
         }
     }
 
+    fun checkForEmptyTaskList(taskList : MutableList<Task>){
+        if(taskList.size > 0){
+            fragmentFirstBinding?.let {
+                it.taskRecyclerview.visibility = View.VISIBLE
+                it.letsAddTaskRl.visibility =View.GONE
+            }
+        }else{
+            fragmentFirstBinding?.let {
+                it.taskRecyclerview.visibility = View.GONE
+                it.letsAddTaskRl.visibility =View.VISIBLE
+            }
+        }
 
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
 
 
 }

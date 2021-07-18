@@ -39,6 +39,16 @@
                         android:textSize="35sp"
                         android:transitionName="transition_title_text" />
 
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/task_item_delete"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="@dimen/margin_extra_small"
+                        android:src="@drawable/task_delete_icon"
+                        android:tint="@color/purple_700"
+                        android:layout_alignParentRight="true" />
+
                 </RelativeLayout>
 
                 <LinearLayout
@@ -141,6 +151,19 @@
                         android:hint="@string/schedule_timer"
                         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                         />
+
+                    <CheckBox
+                        android:id="@+id/update_status_checkbox"
+                        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/completed"
+                        android:buttonTint="@color/purple_700"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </LinearLayout>
 

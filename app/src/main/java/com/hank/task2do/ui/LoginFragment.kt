@@ -1,11 +1,14 @@
 package com.hank.task2do.ui
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.Nullable
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -70,6 +73,7 @@ class LoginFragment : Fragment(), ViewModelCallback {
         super.onResume()
         view?.let {
             it.loggin_button.setOnClickListener {
+                hideKeyboard()
                 if (validateUser()) {
                     loadingDialog.startLoadingDialog()
                     mLoginViewmodel.loginUser(
@@ -100,9 +104,25 @@ class LoginFragment : Fragment(), ViewModelCallback {
     override fun getResult(user: Object) {
         view?.let {
             loadingDialog.dismissDialog()
+
             val action =LoginFragmentDirections.actionLoginFragmentToTaskListFragment()
             action.authUser = user as @Nullable FirebaseUser
             Navigation.findNavController(requireView()).navigate(action)
+
+
         }
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

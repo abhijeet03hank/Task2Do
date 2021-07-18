@@ -11,6 +11,6 @@ data class Task (
     val title : String? = null,
     val comment :String? = null,
     val timer : Date? = null,
-    val status: Status? = null
+    var status: Status? = null
         ):Parcelable
 

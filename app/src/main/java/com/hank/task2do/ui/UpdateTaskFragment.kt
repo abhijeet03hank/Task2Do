@@ -76,17 +76,25 @@ class UpdateTaskFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        view?.let {
-            it.update_timer_button.setOnClickListener {
-                if(null!=mTimer)
-                    pickDateTime(DateUtil.dateToCalendar(mTimer!!))
+        fragmentUpdateTaskBinding?.let {
+            it.updateTimerButton.setOnClickListener {
+                    pickDateTime(DateUtil.dateToCalendar(mTimer))
 
             }
-            it.save_task_button.setOnClickListener {
+            it.saveTaskButton.setOnClickListener {
                 updateNewTask()
             }
-            it.back_to_task_list_button.setOnClickListener {
+            it.backToTaskListButton.setOnClickListener {
                 Navigation.findNavController(requireView()).navigate(R.id.action_updateTaskFragment_to_taskListFragment)
+            }
+
+            it.updateStatusCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+                selectedTask?.status =
+                if (isChecked) {
+                      Status.COMPLETED
+                }else{
+                     Status.TODO
+                }
             }
 
             if(null!=selectedTask){
@@ -101,6 +109,8 @@ class UpdateTaskFragment : Fragment() {
             it.updateTaskCommentEd.setText(task.comment)
             it.updateTaskTitleEd.setText(task.title)
             it.updateTaskTitleEd.isEnabled = false
+            it.updateStatusCheckbox.isChecked = task.status==Status.COMPLETED
+
             if(null!=task.timer) {
                 mTimer = task.timer
                 updateTaskDateTime(task.timer)
@@ -112,7 +122,7 @@ class UpdateTaskFragment : Fragment() {
         if(validateTask()){
             val title = update_task_title_ed.text.toString()
             val comments = update_task_comment_ed.text.toString()
-            val task = Task(title, comments, mTimer, Status.TODO)
+            val task = Task(title, comments, mTimer,selectedTask?.status)
             mTaskListViewmodel.updateNewTask(task)
             loadingDialog.startLoadingDialog()
 
